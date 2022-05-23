@@ -20,11 +20,11 @@ ObjectsNames = {0: 'background',
 
 
 #Loading model
-model = cv2.dnn.readNetFromTensorflow('home/pi/workspace/roboter_teko/models/frozen_inference_graph.pb',
-                                      'home/pi/workspace/roboter_teko/models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
+model = cv2.dnn.readNetFromTensorflow('/home/pi/workspace/roboter_teko/camera/models/frozen_inference_graph.pb',
+                                      '/home/pi/workspace/roboter_teko/camera/models/ssd_mobilenet_v2_coco_2018_03_29.pbtxt')
 
 #Loading image
-image = cv2.imread("dogndapple.jpg")
+image = cv2.imread("/home/pi/workspace/roboter_teko/camera/dogndapple.jpg")
 #Getting height and shape of image
 image_height, image_width, _ = image.shape
 
