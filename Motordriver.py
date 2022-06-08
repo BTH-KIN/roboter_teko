@@ -72,8 +72,8 @@ class driver:
         self.en1.off()
         self.en2.off() 
 
-    def linkskurve(self,speed,wait):
-        self.en1.value = speed + 0.5
+    def linkskurvevorwarts(self,speed,wait):
+        self.en1.value = speed + 0.4
         self.en2.value = speed 
         self.en1.toggle()
         self.en2.toggle()
@@ -85,9 +85,9 @@ class driver:
         self.en1.off()
         self.en2.off()    
 
-    def rechtskurve(self,speed,wait):
+    def rechtskurvorwarts(self,speed,wait):
         self.en1.value = speed 
-        self.en2.value = speed + 0.5
+        self.en2.value = speed + 0.4
         self.en1.toggle()
         self.en2.toggle()
         self.in1.off()
@@ -96,7 +96,35 @@ class driver:
         self.in4.off()
         sleep(wait)
         self.en1.off()
-        self.en2.off()    
+        self.en2.off() 
+
+    def rechtskurveruckwarts(self,speed,wait):
+        self.en1.value = speed 
+        self.en2.value = speed + 0.4
+        self.en1.toggle()
+        self.en2.toggle()
+        self.in1.on()
+        self.in2.off()
+        self.in3.off()
+        self.in4.on()
+        sleep(wait)
+        self.en1.off()
+        self.en2.off()      
+
+
+
+    def linkskurveruckwarts(self,speed,wait):
+        self.en1.value = speed + 0.4
+        self.en2.value = speed 
+        self.en1.toggle()
+        self.en2.toggle()
+        self.in1.on()
+        self.in2.off()
+        self.in3.off()
+        self.in4.on()
+        sleep(wait)
+        self.en1.off()
+        self.en2.off()        
 
     def motoraus(self):
         self.en1.off()
@@ -119,11 +147,16 @@ class driver:
           self.linksdrehen(speed,wait) 
 
         if richtung in "linkskurve":
-          self.linkskurve(speed,wait) 
+          self.linkskurvevorwarts(speed,wait) 
 
         if richtung in "rechtskurve":
-          self.rechtskurve(speed,wait)   
+          self.rechtskurvorwarts(speed,wait) 
+
+        if richtung in "rechtskurveR":
+          self.rechtskurveruckwarts(speed,wait)     
         
+        if richtung in "linkskurveR":
+          self.linkskurveruckwarts(speed,wait) 
        
 
 if __name__ == '__main__':
@@ -153,10 +186,14 @@ if __name__ == '__main__':
     # roboter.drivecontrol("vorwarts",speed,3)
     
  
-    roboter.drivecontrol("linkskurve",speed,3)
+    # roboter.drivecontrol("linkskurve",speed,5)
 
-    roboter.drivecontrol("rechtskurve",speed,3)
+
+    # roboter.drivecontrol("rechtskurve",speed,5)
+
+    roboter.drivecontrol("rechtskurveR",speed,5)
  
+    roboter.drivecontrol("linkskurveR",speed,5)
 
     
 
