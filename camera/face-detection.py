@@ -28,9 +28,7 @@ while True:
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
     # Draw the rectangle around each face
     for (x, y, w, h) in faces:
-        print("x:",x,"y:",y,"w:",w,"h:",h,"\n")
-        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 255, 255), 4)
-        print("face detected")
+        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
     # Display
     cv2.imshow('img', img)
     # Stop if escape key is pressed
