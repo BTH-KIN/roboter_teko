@@ -15,7 +15,8 @@ class driver:
 
     
 
-    def linksdrehen(self,wait,speed):
+       
+    def linksdrehen(self,speed,wait):
         self.en1.value = speed
         self.en2.value = speed
         self.en1.toggle()
@@ -26,8 +27,9 @@ class driver:
         self.in2.off()
         self.in3.on()
         self.in4.off()
-
-        sleep(wait)
+        sleep(wait) 
+        self.en1.off()
+        self.en2.off()
         
         
     def rechtsdrehen(self,speed,wait):
@@ -99,8 +101,8 @@ class driver:
         self.en2.off() 
 
     def rechtskurveruckwarts(self,speed,wait):
-        self.en1.value = speed 
-        self.en2.value = speed + 0.4
+        self.en1.value = speed + 0.4
+        self.en2.value = speed 
         self.en1.toggle()
         self.en2.toggle()
         self.in1.on()
@@ -114,8 +116,8 @@ class driver:
 
 
     def linkskurveruckwarts(self,speed,wait):
-        self.en1.value = speed + 0.4
-        self.en2.value = speed 
+        self.en1.value = speed 
+        self.en2.value = speed + 0.4
         self.en1.toggle()
         self.en2.toggle()
         self.in1.on()
@@ -134,28 +136,28 @@ class driver:
   
     def drivecontrol(self,richtung,speed,wait):
 
-        if richtung in "vorwarts":
+        if richtung == "vorwarts":
           self.vorwarts(speed,wait) 
 
-        if richtung in "ruckwarts":
+        if richtung == "ruckwarts":
             self.ruckwarts(speed,wait) 
 
-        if richtung in "rechts":
+        if richtung == "rechts":
           self.rechtsdrehen(speed,wait) 
         
-        if richtung in "links":
+        if richtung == "links":
           self.linksdrehen(speed,wait) 
 
-        if richtung in "linkskurve":
+        if richtung == "linkskurvevorwarts":
           self.linkskurvevorwarts(speed,wait) 
 
-        if richtung in "rechtskurve":
+        if richtung == "rechtskurvevorwarts":
           self.rechtskurvorwarts(speed,wait) 
 
-        if richtung in "rechtskurveR":
+        if richtung == "rechtskurveruckwarts":
           self.rechtskurveruckwarts(speed,wait)     
         
-        if richtung in "linkskurveR":
+        if richtung == "linkskurveruckwarts":
           self.linkskurveruckwarts(speed,wait) 
        
 
@@ -164,36 +166,30 @@ if __name__ == '__main__':
 
     speed = 0.1
     
-
-    timer = 0.6
-    timel = 0.6
     
 
-    # roboter.drivecontrol("rechts",speed,timer)
-    
-    # sleep(1)
+  
+    # roboter.drivecontrol("links",speed,2)
 
-    # roboter.drivecontrol("links",speed,timel)
-    
-    # sleep(1)
-    
-    # roboter.drivecontrol("vorwarts",speed,3)
-    
+    # roboter.drivecontrol("rechts", speed,2)
+
+
 
     # roboter.drivecontrol("ruckwarts",speed,2)
     
    
-    # roboter.drivecontrol("vorwarts",speed,3)
+    # roboter.drivecontrol("vorwarts",speed,2)
     
  
-    # roboter.drivecontrol("linkskurve",speed,5)
+    # roboter.drivecontrol("linkskurvevorwarts",speed,2)
 
 
-    # roboter.drivecontrol("rechtskurve",speed,5)
+    # roboter.drivecontrol("rechtskurvevorwarts",speed,4)
 
-    roboter.drivecontrol("rechtskurveR",speed,5)
+
+    # roboter.drivecontrol("rechtskurveruckwarts",speed,4)
+
  
-    roboter.drivecontrol("linkskurveR",speed,5)
+    roboter.drivecontrol("linkskurveruckwarts",speed,4)
 
     
-
