@@ -8,6 +8,7 @@ import time
 import numpy as np
 import glob
 from colorlabler import ColorLabeler
+import motor_treiber
 
 def increase_brightness(img, value=30):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -74,11 +75,11 @@ def proc_image(image_name):
 
     return image, oX
 
-
-
 if __name__ == '__main__':
 
     cap = cv2.VideoCapture(0)
+
+    roboterwheel = motor_treiber.driver()
 
     # Check if the webcam is opened correctly
     if not cap.isOpened():
@@ -89,7 +90,10 @@ if __name__ == '__main__':
         frame = increase_brightness(frame, value=30)
         i, o = proc_image(frame)
         print(o)
-        cv2.imshow('Output', i)
+        # cv2.imshow('Output', i)
+        if o < -20:
+            roboterwheel.drivecontrol("links", 0.4, 2)
+        # motor_treiber.roboter.drivecontrol("links",speed,2)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
