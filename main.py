@@ -2,8 +2,19 @@ from image_prcessing import cv2,increase_brightness,proc_image
 from Motordriver import driver
 
 def motion_contorl(offset):
-    if offset < -20:
-        roboterwheel.drivecontrol("links", 0.4, 2)
+    speed = 0.1
+
+    if offset != 9999:
+        if offset < 0:
+            print("robter dreht Links")
+            roboterwheel.drivecontrol("links", speed,0)
+        else:
+            print("robter dreht Rechts")
+            roboterwheel.drivecontrol("rechts", speed,0)
+    else:
+        print("robter dreht nicht")
+        roboterwheel.drivecontrol("stop", speed,0)
+
 
 def get_offset():
     ret, frame = cap.read()
@@ -26,7 +37,7 @@ if __name__ == '__main__':
     while True:
         o = get_offset()
         print(o)
-        #motion_contorl(o)
+        motion_contorl(o)
         
         
 
