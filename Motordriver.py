@@ -1,6 +1,5 @@
 #/usr/bin/python
 
-from email.utils import encode_rfc2231
 from time import sleep
 import gpiozero as g0
 
@@ -16,23 +15,8 @@ class driver:
     
 
        
-    def linksdrehen(self,speed,wait):
-        self.en1.value = speed
-        self.en2.value = speed
-        self.en1.toggle()
-        self.en2.toggle()
-        self.en1.on()
-        self.en2.on()
-        self.in1.on()
-        self.in2.off()
-        self.in3.on()
-        self.in4.off()
-        sleep(wait) 
-        self.en1.off()
-        self.en2.off()
-        
-        
-    def rechtsdrehen(self,speed,wait):
+    def linksdrehen(self,speed):
+        print("Speed",speed)
         self.en1.value = speed
         self.en2.value = speed
         self.en1.toggle()
@@ -41,11 +25,22 @@ class driver:
         self.en2.on()
         self.in1.off()
         self.in2.on()
+        self.in3.on()
+        self.in4.off() 
+        
+        
+    def rechtsdrehen(self,speed):
+        self.en1.value = speed
+        self.en2.value = speed
+        self.en1.toggle()
+        self.en2.toggle()
+        self.en1.on()
+        self.en2.on()
+        self.in1.on()
+        self.in2.off()
         self.in3.off()
         self.in4.on()
-        sleep(wait) 
-        self.en1.off()
-        self.en2.off() 
+      
 
     def ruckwarts(self,speed,wait):
         self.en1.value = speed
@@ -128,7 +123,7 @@ class driver:
         self.en1.off()
         self.en2.off()        
 
-    def motoraus(self):
+    def stop(self):
         self.en1.off()
         self.en2.off()
 
@@ -143,10 +138,10 @@ class driver:
             self.ruckwarts(speed,wait) 
 
         if richtung == "rechts":
-          self.rechtsdrehen(speed,wait) 
+          self.rechtsdrehen(speed) 
         
         if richtung == "links":
-          self.linksdrehen(speed,wait) 
+          self.linksdrehen(speed) 
 
         if richtung == "linkskurvevorwarts":
           self.linkskurvevorwarts(speed,wait) 
@@ -159,20 +154,26 @@ class driver:
         
         if richtung == "linkskurveruckwarts":
           self.linkskurveruckwarts(speed,wait) 
+
+        if richtung == "stop":
+          self.stop() 
        
 
 if __name__ == '__main__':
     roboter=driver()
 
-    speed = 0.1
+    speed = 0.5
     
     
-
+ 
   
-    # roboter.drivecontrol("links",speed,2)
+    roboter.drivecontrol("links",speed,0)
+    sleep(2)
+    roboter.drivecontrol("stop",speed,0)
 
-    # roboter.drivecontrol("rechts", speed,2)
-
+    roboter.drivecontrol("rechts", speed,2)
+    sleep(2)
+    roboter.drivecontrol("stop",speed,0)
 
 
     # roboter.drivecontrol("ruckwarts",speed,2)
@@ -190,6 +191,6 @@ if __name__ == '__main__':
     # roboter.drivecontrol("rechtskurveruckwarts",speed,4)
 
  
-    roboter.drivecontrol("linkskurveruckwarts",speed,4)
+    #roboter.drivecontrol("linkskurveruckwarts",speed,4)
 
     
