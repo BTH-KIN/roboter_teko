@@ -1,6 +1,5 @@
 #/usr/bin/python
 
-from email.utils import encode_rfc2231
 from time import sleep
 import gpiozero as g0
 
