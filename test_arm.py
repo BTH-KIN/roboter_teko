@@ -92,13 +92,13 @@ class amr_controller:
 if __name__ == '__main__':  
     arm = amr_controller()
    
-    arm.arm_forward()
-    arm.arm_down()
-    arm.gripper_close()
+    # arm.arm_forward()
+    # arm.arm_down()
+    # arm.gripper_close()
 
     # while True:
-    #     # arm.test_gripper()
-    #     arm.test_arm()
+    arm.test_gripper()
+    arm.test_arm()
     
 
 
