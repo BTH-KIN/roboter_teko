@@ -8,7 +8,6 @@ import time
 import numpy as np
 import glob
 from colorlabler import ColorLabeler
-import motor_treiber
 
 def increase_brightness(img, value=30):
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
