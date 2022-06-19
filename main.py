@@ -41,7 +41,7 @@ def motion_contorl(offset):
 
 def get_offset():
     ret, frame = cap.read()
-    frame = increase_brightness(frame, value=30)
+    frame = increase_brightness(frame, value=60)
     i, o, thresh = proc_image(frame)
     cv2.imshow('Output', i) # make videostream
     cv2.imshow('gry', thresh)
