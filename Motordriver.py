@@ -21,8 +21,8 @@ class driver:
         self.en2.value = speed
         self.en1.toggle()
         self.en2.toggle()
-        self.en1.on()
-        self.en2.on()
+        self.en1.value 
+        self.en2.value
         self.in1.off()
         self.in2.on()
         self.in3.on()
@@ -34,8 +34,8 @@ class driver:
         self.en2.value = speed
         self.en1.toggle()
         self.en2.toggle()
-        self.en1.on()
-        self.en2.on()
+        self.en1.value 
+        self.en2.value
         self.in1.on()
         self.in2.off()
         self.in3.off()
@@ -162,18 +162,18 @@ class driver:
 if __name__ == '__main__':
     roboter=driver()
 
-    speed = 0.5
+    speed = 0.65
     
     
  
   
-    roboter.drivecontrol("links",speed,0)
-    sleep(2)
-    roboter.drivecontrol("stop",speed,0)
+    # roboter.drivecontrol("links",speed,0)
+    # sleep(2)
+    # roboter.drivecontrol("stop",speed,0)
 
-    roboter.drivecontrol("rechts", speed,2)
-    sleep(2)
-    roboter.drivecontrol("stop",speed,0)
+    # roboter.drivecontrol("rechts", speed,2)
+    # sleep(2)
+    # roboter.drivecontrol("stop",speed,0)
 
 
     # roboter.drivecontrol("ruckwarts",speed,2)

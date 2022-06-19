@@ -56,7 +56,7 @@ def proc_image(image_name):
         #print(type(color))
         if color != "blue":
             clist.append(c)
-        #print(color)
+        print(color)
 
     c2 = tuple(clist)
     cv2.line(image, (310, 240), (330, 240), (0, 0, 255), 2)
@@ -64,7 +64,7 @@ def proc_image(image_name):
     oX = 9999
     for c in c2:
         x,y,w,h = cv2.boundingRect(c)
-        #cv2.rectangle(image, (x, y), (x + w, y + h), (36,255,12), 3)
+        cv2.rectangle(image, (x, y), (x + w, y + h), (36,255,12), 3)
         cX = int(x + w/2)
         cY = int(y + h/2)
         color = cl.label(image, c)
@@ -84,10 +84,11 @@ if __name__ == '__main__':
 
     while True:
         ret, frame = cap.read()
-        frame = increase_brightness(frame, value=30)
+        frame = increase_brightness(frame, value=50)
         i, o = proc_image(frame)
         print(o)
         cv2.imshow('Output', i)
+        cv2.imshow("Mask", mask)
        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
