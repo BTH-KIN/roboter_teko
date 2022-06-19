@@ -29,7 +29,7 @@ def proc_image(image_name):
 
     result = image.copy()
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    thresh = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,51,9)
+    thresh = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,111,9)
 
     # Fill rectangular contours
     cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -72,7 +72,7 @@ def proc_image(image_name):
 
         oX = cX - 320
 
-    return image, oX
+    return image, oX, thresh
 
 if __name__ == '__main__':
 

@@ -1,4 +1,4 @@
-from image_prcessing import cv2,increase_brightness,proc_image
+from image_prcessing import cv2,increase_brightness,proc_image, proc_image
 from Motordriver import driver
 
 def motion_contorl(offset):
@@ -42,9 +42,9 @@ def motion_contorl(offset):
 def get_offset():
     ret, frame = cap.read()
     frame = increase_brightness(frame, value=30)
-    i, o = proc_image(frame)
+    i, o, thresh = proc_image(frame)
     cv2.imshow('Output', i) # make videostream
-    cv2.imshow('cnts', cnts)
+    cv2.imshow('gry', thresh)
     return o
 
 
