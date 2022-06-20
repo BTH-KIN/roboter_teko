@@ -86,6 +86,14 @@ class amr_controller:
         sleep(1)
         arm.arm_backward()
         sleep(1)
+
+    def arm_pos_up(self):
+        self.servo_controller.servo[2].angle = 90
+        self.servo_controller.servo[1].angle = 90
+
+    def arm_pos_down(self):
+        self.servo_controller.servo[2].angle = 170
+        self.servo_controller.servo[1].angle = 90
             
 
 
@@ -95,10 +103,19 @@ if __name__ == '__main__':
     # arm.arm_forward()
     # arm.arm_down()
     # arm.gripper_close()
+    # arm.gripper_open()
+    # arm.set_servo_angel(2,180)
+    # arm.set_servo_angel(1,0)
+    # arm.set_servo_angel(3,90)
+    # arm.arm_pos_up()
+    # arm.arm_pos_down()
+    # arm.arm_backward()
+
+    
 
     # while True:
-    arm.test_gripper()
-    arm.test_arm()
+    #     arm.test_gripper()
+    #     arm.test_arm()
     
 
 

@@ -16,7 +16,7 @@ class driver:
 
        
     def linksdrehen(self,speed):
-        print("Speed",speed)
+        # print("Speed",speed)
         self.en1.value = speed
         self.en2.value = speed
         self.en1.toggle()
@@ -162,14 +162,14 @@ class driver:
 if __name__ == '__main__':
     roboter=driver()
 
-    speed = 0.65
+    speed = 0.1
     
     
  
   
-    # roboter.drivecontrol("links",speed,0)
-    # sleep(2)
-    # roboter.drivecontrol("stop",speed,0)
+    roboter.drivecontrol("rechts",speed,0)
+    sleep(0.3)
+    roboter.drivecontrol("stop",speed,0)
 
     # roboter.drivecontrol("rechts", speed,2)
     # sleep(2)
