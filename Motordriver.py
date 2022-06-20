@@ -5,8 +5,8 @@ import gpiozero as g0
 
 class driver:
     def __init__(self):
-        self.in1 = g0.OutputDevice(4)
-        self.in2 = g0.OutputDevice(17)
+        self.in1 = g0.OutputDevice(23)
+        self.in2 = g0.OutputDevice(18)
         self.en1 = g0.PWMLED(19)
         self.in3 = g0.OutputDevice(5)
         self.in4 = g0.OutputDevice(6)
@@ -162,14 +162,14 @@ class driver:
 if __name__ == '__main__':
     roboter=driver()
 
-    speed = 0.65
+    speed = 0.1
     
     
  
   
-    # roboter.drivecontrol("links",speed,0)
-    # sleep(2)
-    # roboter.drivecontrol("stop",speed,0)
+    roboter.drivecontrol("links",speed,0)
+    sleep(2)
+    roboter.drivecontrol("stop",speed,0)
 
     # roboter.drivecontrol("rechts", speed,2)
     # sleep(2)

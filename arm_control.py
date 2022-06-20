@@ -94,11 +94,12 @@ if __name__ == '__main__':
    
     # arm.arm_forward()
     # arm.arm_down()
+    arm.gripper_open()
     # arm.gripper_close()
 
     # while True:
-    arm.test_gripper()
-    arm.test_arm()
+    #     arm.test_gripper()
+    #     arm.test_arm()
     
 
 
