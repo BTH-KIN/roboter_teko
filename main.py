@@ -25,28 +25,43 @@ def testfun(offset):
         imgPos = 0
 
 def motion_contorl(offset,arm):
-    speed = 0.1
+    speed = 0.3
 
     # testfun(offset)
 
     if offset != 9999:
-        if offset in range(-320, -60):
+        if offset in range(-319, -180):
             print("robter dreht Links")
             roboterwheel.drivecontrol("links", speed,0)
-            sleep(0.03)
+            sleep(0.2)
             roboterwheel.drivecontrol("stop", speed,0)
             sleep(1)
-        elif offset in range(60, 320):
+        elif offset in range(-179, -60):
+            print("robter dreht Links")
+            roboterwheel.drivecontrol("links", speed,0)
+            sleep(0.08)
+            roboterwheel.drivecontrol("stop", speed,0)
+            sleep(1)
+        elif offset in range(60, 180):
             print("robter dreht Rechts")
             roboterwheel.drivecontrol("rechts", speed,0)
-            sleep(0.03)
+            sleep(0.08)
             roboterwheel.drivecontrol("stop", speed,0)
             sleep(1)
+        elif offset in range(181, 319):
+            print("robter dreht Rechts")
+            roboterwheel.drivecontrol("rechts", speed,0)
+            sleep(0.2)
+            roboterwheel.drivecontrol("stop", speed,0)
+            sleep(1)
+        elif offset == -320 or offset == 320:
+            print("Scan drive")
+            scan(speed)
     else:
-        print("robter dreht nicht")
-        roboterwheel.drivecontrol("stop", speed,0)
-        arm.arm_forward()
-        arm.arm_down()
+        # arm.arm_forward()
+        # arm.arm_down()
+        scan(speed)
+
     if offset in range(-60, 0):
         roboterwheel.drivecontrol("stop", speed,0)
         arm_postion(arm,o) 
@@ -68,12 +83,24 @@ def arm_postion(arm,offset):
     arm.arm_forward()
     arm.arm_down()
 
-
+def scan(speed):
+    print("Scan left")
+    roboterwheel.drivecontrol("links", speed,0)
+    sleep(0.4)
+    roboterwheel.drivecontrol("stop", speed,0)
+    sleep(2)
+    motion_contorl()
+    print("Scan right")
+    roboterwheel.drivecontrol("rechts", speed,0)
+    sleep(0.4)
+    roboterwheel.drivecontrol("stop", speed,0)
+    sleep(2)
+    motion_contorl()
 
 if __name__ == '__main__':
 
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FPS, 10)
+    cap.set(cv2.CAP_PROP_FPS, 60)
     arm = arm_control.amr_controller()
 
     roboterwheel = driver()

@@ -62,6 +62,7 @@ def proc_image(image_name):
     cv2.line(image, (310, 240), (330, 240), (0, 0, 255), 2)
     cv2.line(image, (320, 230), (320, 250), (0, 0, 255), 2)
     oX = 9999
+    corr = []
     for c in c2:
         x,y,w,h = cv2.boundingRect(c)
         cv2.rectangle(image, (x, y), (x + w, y + h), (36,255,12), 3)
@@ -69,8 +70,48 @@ def proc_image(image_name):
         cY = int(y + h/2)
         color = cl.label(image, c)
         cv2.circle(image, (cX, cY), 7, (255, 255, 0), -1)
+        corr.append(cX)
 
-        oX = cX - 320
+    r = 0
+    if len(corr) > 0:
+        if len(corr) > 1:
+            corr_bool = []
+
+            for i in range(len(corr)):
+                corr_bool.append("false")
+
+            i = 0
+            t = "false"
+            for a in corr:
+                j = 0
+                for b in corr:
+                    if i != j:
+                        if abs(a - b) < 20:
+                            t = "true"
+                            corr_bool[i] = "true"
+                        else:
+                            t = "false"
+                    j = j + 1
+                i = i + 1
+
+            i = 0
+            s = 0
+            k = 0
+            for a in corr_bool:
+                if a == "true":
+                    s = s + corr[i]
+                    k = k + 1
+                i = i + 1
+            if k>0:
+                r = int(s / k)
+
+        else:
+            r = corr[0]
+
+        cv2.line(image, (r - 10, 240), (r + 10, 240), (0, 255, 0), 2)
+        cv2.line(image, (r, 230), (r, 250), (0, 255, 0), 2)
+
+        oX = r - 320
 
     return image, oX, thresh
 
@@ -86,9 +127,9 @@ if __name__ == '__main__':
         ret, frame = cap.read()
         frame = increase_brightness(frame, value=50)
         i, o = proc_image(frame)
-        print(o)
-        cv2.imshow('Output', i)
-        cv2.imshow("Mask", mask)
+        # print(o)
+        # cv2.imshow('Output', i)
+        # cv2.imshow("Mask", mask)
        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
