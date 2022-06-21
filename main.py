@@ -6,12 +6,26 @@ import arm_control
 class rover:
     def __init__(self):
         # Variablen init
-        self.merker_left_right = False
+        self.merker_left = False
+        self.steps  = 0
+
+        # Objekt Init
         self.arm = arm_control.amr_controller()
         self.roboterwheel = driver()
+        self.cap = cv2.VideoCapture(0)
+        # cap.set(cv2.CAP_PROP_FPS, 60) 
+
+         # Check if the webcam is opened correctly
+        if not self.cap.isOpened():
+            raise IOError("Cannot open webcam alredy in use")
+
+    def __del__(self):
+        # Cam close and close al windowas
+        self.cap.release()
+        cv2.destroyAllWindows()
 
     def get_offset(self):
-        ret, frame = cap.read()
+        ret, frame = self.cap.read()
         frame = increase_brightness(frame, value=60)
         i, o, thresh = proc_image(frame)
 
@@ -46,98 +60,94 @@ class rover:
         self.arm.arm_forward()
         self.arm.arm_down()
 
-    def center_obj(motionState):
+    def center_obj(self,motionState):
         speed = 0.2
 
         # left configuration
         if motionState == 'leftOutObj':
-            roboterwheel.drivecontrol("links", speed,0)
+            self.roboterwheel.drivecontrol("links", speed,0)
             sleep(0.2)
-            roboterwheel.drivecontrol("stop", speed,0)
+            self.roboterwheel.drivecontrol("stop", speed,0)
             sleep(2)
 
         if motionState == 'leftInObj':
-            roboterwheel.drivecontrol("links", speed,0)
+            self.roboterwheel.drivecontrol("links", speed,0)
             sleep(0.08)
-            roboterwheel.drivecontrol("stop", speed,0)
+            self.roboterwheel.drivecontrol("stop", speed,0)
             sleep(2)
 
         # right configuration
         if motionState == 'rightOutObj':
-            roboterwheel.drivecontrol("rechts", speed,0)
+            self.roboterwheel.drivecontrol("rechts", speed,0)
             sleep(0.2)
-            roboterwheel.drivecontrol("stop", speed,0)
+            self.roboterwheel.drivecontrol("stop", speed,0)
             sleep(2)
         if motionState == 'rightInObj':
-            roboterwheel.drivecontrol("rechts", speed,0)
+            self.roboterwheel.drivecontrol("rechts", speed,0)
             sleep(0.08)
-            roboterwheel.drivecontrol("stop", speed,0)
+            self.roboterwheel.drivecontrol("stop", speed,0)
             sleep(2)
 
-
-        # print("Scan left")
-        # roboterwheel.drivecontrol("links", speed,0)
-        # sleep(0.4)
-        # roboterwheel.drivecontrol("stop", speed,0)
-        # sleep(2)
-        # motion_contorl()
-        # print("Scan right")
-        # roboterwheel.drivecontrol("rechts", speed,0)
-        # sleep(0.4)
-        # roboterwheel.drivecontrol("stop", speed,0)
-        # sleep(2)
-        # motion_contorl()
-
-    def scanForObj(motionState):
+    def scanForObj(self,motionState):
         speed = 0.2
-        if motionState == 'noObj':
-            roboterwheel.drivecontrol("links", speed,0)
+
+        
+        
+        
+        if self.merker_left == False:
+            self.roboterwheel.drivecontrol("links", speed,0)
             sleep(0.2)
-            roboterwheel.drivecontrol("stop", speed,0)
-            
-            sleep(2)
+            self.roboterwheel.drivecontrol("stop", speed,0)
+            self.steps = self.steps  +  1
+            if self.steps >=  2:
+                self.merker_left = True
+        
+        if self.merker_left == True:
+            self.roboterwheel.drivecontrol("rechts", speed,0)
+            sleep(0.2)
+            self.roboterwheel.drivecontrol("stop", speed,0)
+            self.steps = self.steps  +  1
+            if self.steps >=  2:
+                self.merker_left = False
         
 
-        if motionState == 'fewObj':
-            roboterwheel.drivecontrol("rechts", speed,0)
-            sleep(0.2)
-            roboterwheel.drivecontrol("stop", speed,0)
+        # if motionState == 'noObj':
+        #     self.roboterwheel.drivecontrol("links", speed,0)
+        #     sleep(0.2)
+        #     self.roboterwheel.drivecontrol("stop", speed,0)
             
-            sleep(2)
+        #     sleep(2)
+        
+
+        # if motionState == 'fewObj':
+        #     self.roboterwheel.drivecontrol("rechts", speed,0)
+        #     sleep(0.2)
+        #     self.roboterwheel.drivecontrol("stop", speed,0)
+            
+        #     sleep(2)
       
 
 
 if __name__ == '__main__':
 
-    # Objekt Init
-    cap = cv2.VideoCapture(0)
-    # cap.set(cv2.CAP_PROP_FPS, 60)
+   
+    roboter = rover()
   
 
-   
-
-
-
-    # Check if the webcam is opened correctly
-    if not cap.isOpened():
-        raise IOError("Cannot open webcam")
-    
-    
-
     while True:
-        
-        motionState = set_states(get_offset())
-        
-        print(o)
+
+        offset = roboter.get_offset()
+        motionState = roboter.set_states(offset)
+        print(offset)
         print(motionState)
         sleep(0.02)
         
         if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
-            center_obj(motionState)
+            roboter.center_obj(motionState)
 
        
         if motionState == 'fewObj' or motionState == 'noObj':
-            scanForObj(motionState,merker_left_right)
+            roboter.scanForObj(motionState)
         
 
         # motion_contorl(o,arm)  
@@ -147,6 +157,5 @@ if __name__ == '__main__':
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # Cam close and close al windowas
-    cap.release()
-    cv2.destroyAllWindows()
+    # remove the objet roboter
+    del roboter

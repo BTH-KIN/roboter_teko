@@ -167,7 +167,7 @@ if __name__ == '__main__':
     
  
   
-    roboter.drivecontrol("rechts",speed,0)
+    roboter.drivecontrol("links",speed,0)
     sleep(0.3)
     roboter.drivecontrol("stop",speed,0)
 
