@@ -58,7 +58,7 @@ def proc_image(image_name):
             clist.append(c)
             print("[DEBUG] Noting for me")
         else:
-            print("[DEBUG] OBJET")
+            print("[DEBUG] OBJECT")
        
 
     c2 = tuple(clist)

@@ -13,7 +13,7 @@ class rover:
         self.arm = arm_control.amr_controller()
         self.roboterwheel = driver()
         self.cap = cv2.VideoCapture(0)
-        self.cap.set(cv2.CAP_PROP_FPS, 1) 
+        # self.cap.set(cv2.CAP_PROP_FPS, 1) 
 
          # Check if the webcam is opened correctly
         if not self.cap.isOpened():
@@ -30,8 +30,8 @@ class rover:
         frame = increase_brightness(frame, value=60)
         i, o, thresh = proc_image(frame)
 
-        cv2.imshow('Output', i) # make videostream
-        cv2.imshow('gry', thresh)
+        # cv2.imshow('Output', i) # make videostream
+        # cv2.imshow('gry', thresh)
     
         return o
 
@@ -49,8 +49,10 @@ class rover:
             motionState = 'rightInObj'
         elif o in range(180, 319):
             motionState = 'rightOutObj'  
-        elif o in range(-60, 60):
+        elif o in range(-59, 61):
             motionState = 'center'
+        else:
+            motionState = "error"
         
         return motionState
 
@@ -100,10 +102,12 @@ class rover:
                 self.roboterwheel.drivecontrol("links", speed,0)
                 sleep(0.5)
                 self.roboterwheel.drivecontrol("stop", speed,0)
+                sleep(2)
             else:
                 self.roboterwheel.drivecontrol("links", speed,0)
                 sleep(0.1)
                 self.roboterwheel.drivecontrol("stop", speed,0)
+                sleep(2)
             
             self.steps = self.steps  +  1
 
@@ -116,10 +120,12 @@ class rover:
                 self.roboterwheel.drivecontrol("rechts", speed,0)
                 sleep(0.5)
                 self.roboterwheel.drivecontrol("stop", speed,0)
+                sleep(2)
             else:
                 self.roboterwheel.drivecontrol("rechts", speed,0)
                 sleep(0.1)
                 self.roboterwheel.drivecontrol("stop", speed,0)
+                sleep(2)
             
             self.steps = self.steps  +  1
             
@@ -144,7 +150,6 @@ class rover:
         #     sleep(2)
       
 
-
 if __name__ == '__main__':
 
    
@@ -152,20 +157,24 @@ if __name__ == '__main__':
   
 
     while True:
-       
+        
         offset = roboter.get_offset()
-        # sleep(3)
         motionState = roboter.set_states(offset)
-        print(offset)
-        print(motionState)
+        print("[DEBUG] Offset: ",offset)
+        print("[DEBUG] motionState: ",motionState)
         sleep(0.02)
         
         if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
             roboter.center_obj(motionState)
-
+            
        
         if motionState == 'fewObj' or motionState == 'noObj':
             roboter.scanForObj(motionState)
+
+        if motionState == 'center':
+            roboter.arm.arm_pos_down()
+        else:
+            roboter.arm.arm_pos_up()
         
 
         # motion_contorl(o,arm)  

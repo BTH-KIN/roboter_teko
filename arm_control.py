@@ -89,11 +89,11 @@ class amr_controller:
 
     def arm_pos_up(self):
         self.servo_controller.servo[2].angle = 90
-        self.servo_controller.servo[1].angle = 90
+        self.servo_controller.servo[1].angle = 40
 
     def arm_pos_down(self):
-        self.servo_controller.servo[2].angle = 170
-        self.servo_controller.servo[1].angle = 90
+        self.servo_controller.servo[2].angle = 90
+        self.servo_controller.servo[1].angle = 170
             
 
 
