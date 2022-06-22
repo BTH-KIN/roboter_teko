@@ -56,7 +56,10 @@ def proc_image(image_name):
         #print(type(color))
         if color != "blue":
             clist.append(c)
-        print(color)
+            print("[DEBUG] Noting for me")
+        else:
+            print("[DEBUG] OBJET")
+       
 
     c2 = tuple(clist)
     cv2.line(image, (310, 240), (330, 240), (0, 0, 255), 2)
