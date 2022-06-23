@@ -102,6 +102,7 @@ if __name__ == '__main__':
    
     # arm.arm_forward()
     # arm.arm_down()
+    arm.gripper_open()
     # arm.gripper_close()
     # arm.gripper_open()
     # arm.set_servo_angel(2,180)
