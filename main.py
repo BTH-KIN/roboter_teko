@@ -152,7 +152,7 @@ class rover:
         #     sleep(2)
    
     def get_block(self):
-        speed = 0.3
+        speed = 0.65
         while True:
             for i in range (10):
                self.tof.get_distance(0)
@@ -165,7 +165,8 @@ class rover:
                 break
             
             sleep(0.1)
-        
+
+        sleep(2)
         self.arm.gripper_close()
         sleep(1)
         self.arm.arm_pos_up()
@@ -179,56 +180,54 @@ class rover:
         self.arm.set_servo_angel(3,90)
 
         
+    def test():
+        roboter.arm.set_servo_angel(3,90)
+        roboter.arm.arm_pos_down()
+        roboter.arm.gripper_open()
+        sleep(3)
+        roboter.get_block()
 
 
-
-
-
-
-            
-
-      
 
 if __name__ == '__main__':
 
    
     roboter = rover()
 
-    roboter.arm.arm_pos_down()
-    roboter.arm.gripper_open()
-    roboter.get_block()
+    # roboter.test()
+ 
   
 
-    # while True:
+    while True:
         
-    #     offset = roboter.get_offset()
-    #     motionState = roboter.set_states(offset)
-    #     print("[DEBUG] Offset: ",offset)
-    #     print("[DEBUG] motionState: ",motionState)
-    #     sleep(0.02)
+        offset = roboter.get_offset()
+        motionState = roboter.set_states(offset)
+        print("[DEBUG] Offset: ",offset)
+        print("[DEBUG] motionState: ",motionState)
+        sleep(0.02)
         
-    #     if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
-    #         roboter.center_obj(motionState)
+        if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
+            roboter.center_obj(motionState)
             
        
-    #     if motionState == 'fewObj' or motionState == 'noObj':
-    #         roboter.scanForObj(motionState)
+        if motionState == 'fewObj' or motionState == 'noObj':
+            roboter.scanForObj(motionState)
 
-    #     if motionState == 'center':
-    #         roboter.arm.arm_pos_down()
-    #         roboter.arm.gripper_open()
-    #         roboter.get_block()
-    #     else:
-    #         roboter.arm.arm_pos_up()
-    #         roboter.arm.gripper_close()
+        if motionState == 'center':
+            roboter.arm.arm_pos_down()
+            roboter.arm.gripper_open()
+            roboter.get_block()
+        else:
+            roboter.arm.arm_pos_up()
+            roboter.arm.gripper_close()
         
 
-    #     # motion_contorl(o,arm)  
+        # motion_contorl(o,arm)  
         
        
-    #     # For ending the Program press q 
-    #     if cv2.waitKey(1) & 0xFF == ord('q'):
-    #         break
+        # For ending the Program press q 
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
     # remove the objet roboter
     del roboter
