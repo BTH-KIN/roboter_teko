@@ -15,14 +15,20 @@ except ImportError:
 
 class TOF:
 
-    __on_pins    = [27]
+    __on_pins    = [17]
     __alert_pins    = [4]
-    __en_pins       = [17]
+    __en_pins       = [27]
     __i2c_address   = [0x10]
 
-    def __init__(self, debug=False, tof_bus = smbus2.SMBus(1)):
+    def __init__(self, debug=False, tof_bus = None):
+
+        if tof_bus is None:
+            self.bus = smbus2.SMBus(1)
+            # sleep(1)
+        else:
+            self.bus = tof_bus
+            
         self.debug = debug
-        self.bus = tof_bus
         self.gpio_init()
         self.tof_init()
 
@@ -35,14 +41,13 @@ class TOF:
     def tof_init(self):
         # Inital sensor
         self.tof = []
-        self.tof = VL6180X(address=0x29, debug=self.debug, bus = self.bus)
 
-        # for address, enabel_pin in zip(self.__i2c_address, self.tof_en):
-        #     enabel_pin.on()
-        #     sleep(0.5)
-        #     tof = VL6180X(address=0x29, debug=self.debug, bus = self.bus)
-        #     print("Set new adress sensor 1: {:X}".format(tof.change_address(0x29,address)))
-        #     self.tof.append(tof)
+        for address, enabel_pin in zip(self.__i2c_address, self.tof_en):
+            enabel_pin.on()
+            sleep(0.5)
+            tof = VL6180X(address=0x29, debug=self.debug, bus = self.bus)
+            print("Set new adress sensor 1: {:X}".format(tof.change_address(0x29,address)))
+            self.tof.append(tof)
 
     def get_distance(self,sensor):
         if sensor >= 0 and sensor < len(self.tof):
@@ -60,20 +65,20 @@ class TOF:
        
         # apply pre calibrated offset
         self.tof[0].set_range_offset(23)
-        print("Range offset set to: {:d}".format(self.tof[1].get_range_offset()))
+        print("Range offset set to: {:d}".format(self.tof[0].get_range_offset()))
 
         # setup ToF ranging/ALS sensor
         self.tof[0].get_identification()
         if self.tof[0].idModel != 0xB4:
-            print("Not a valid sensor id: ".format(self.tof[1].idModel))
+            print("Not a valid sensor id: ".format(self.tof[0].idModel))
         else:
-            print("Sensor model: {:X}".format(self.tof[1].idModel))
+            print("Sensor model: {:X}".format(self.tof[0].idModel))
             print("Sensor model rev.: {:d}.{:d}"
-                .format(self.tof[1].idModelRevMajor, self.tof[1].idModelRevMinor))
+                .format(self.tof[0].idModelRevMajor, self.tof[0].idModelRevMinor))
             print("Sensor module rev.: {:d}.{:d}"
-                .format(self.tof[1].idModuleRevMajor, self.tof[1].idModuleRevMinor))
-            print("Sensor date/time: {:X}/{:X}".format(self.tof[1].idDate, self.tof[1].idTime))
-        self.tof[1].default_settings()
+                .format(self.tof[0].idModuleRevMajor, self.tof[0].idModuleRevMinor))
+            print("Sensor date/time: {:X}/{:X}".format(self.tof[0].idDate, self.tof[0].idTime))
+        self.tof[0].default_settings()
 
         sleep(1)
 
@@ -107,8 +112,8 @@ if __name__ == '__main__':
             debug = True
 
     sensortest = TOF(debug)
-    print(sensortest.get_distance(0))
-    # sensortest.test()
+    # print(sensortest.get_distance(0))
+    sensortest.test()
 
      
      
