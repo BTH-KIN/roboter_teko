@@ -171,9 +171,9 @@ if __name__ == '__main__':
     # roboter.drivecontrol("stop",speed,0)
 
 
-    # roboter.drivecontrol("rechts", speed,2)
-    # sleep(2)
-    # roboter.drivecontrol("stop",speed,0)
+    roboter.drivecontrol("vorwarts", speed,2)
+    sleep(2)
+    roboter.drivecontrol("stop",speed,0)
 
 
     # roboter.drivecontrol("ruckwarts",speed,0)

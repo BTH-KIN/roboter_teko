@@ -2,6 +2,7 @@ from image_prcessing import cv2,increase_brightness,proc_image, proc_image
 from Motordriver import driver
 from time import sleep
 import arm_control
+import tof
  
 class rover:
     def __init__(self):
@@ -13,6 +14,7 @@ class rover:
         self.arm = arm_control.amr_controller()
         self.roboterwheel = driver()
         self.cap = cv2.VideoCapture(0)
+        self.tof = tof.tof()
         # self.cap.set(cv2.CAP_PROP_FPS, 1) 
 
          # Check if the webcam is opened correctly
@@ -148,41 +150,85 @@ class rover:
         #     self.roboterwheel.drivecontrol("stop", speed,0)
             
         #     sleep(2)
+   
+    def get_block(self):
+        speed = 0.3
+        while True:
+            for i in range (10):
+               self.tof.get_distance(0)
+               sleep(0.1)
+
+            if self.tof.get_distance(0) > 50:
+                self.roboterwheel.drivecontrol("vorwarts", speed,0)
+            else:
+                self.roboterwheel.drivecontrol("stop", speed,0)
+                break
+            
+            sleep(0.1)
+        
+        self.arm.gripper_close()
+        sleep(1)
+        self.arm.arm_pos_up()
+        sleep(1)
+        self.arm.set_servo_angel(3,180)
+        sleep(1)
+        self.arm.arm_pos_down()
+        sleep(1)
+        self.arm.gripper_open()
+        sleep(1)
+        self.arm.set_servo_angel(3,90)
+
+        
+
+
+
+
+
+
+            
+
       
 
 if __name__ == '__main__':
 
    
     roboter = rover()
+
+    roboter.arm.arm_pos_down()
+    roboter.arm.gripper_open()
+    roboter.get_block()
   
 
-    while True:
+    # while True:
         
-        offset = roboter.get_offset()
-        motionState = roboter.set_states(offset)
-        print("[DEBUG] Offset: ",offset)
-        print("[DEBUG] motionState: ",motionState)
-        sleep(0.02)
+    #     offset = roboter.get_offset()
+    #     motionState = roboter.set_states(offset)
+    #     print("[DEBUG] Offset: ",offset)
+    #     print("[DEBUG] motionState: ",motionState)
+    #     sleep(0.02)
         
-        if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
-            roboter.center_obj(motionState)
+    #     if motionState == 'leftInObj' or motionState == 'leftOutObj' or motionState == 'rightInObj' or motionState == 'rightOutObj':
+    #         roboter.center_obj(motionState)
             
        
-        if motionState == 'fewObj' or motionState == 'noObj':
-            roboter.scanForObj(motionState)
+    #     if motionState == 'fewObj' or motionState == 'noObj':
+    #         roboter.scanForObj(motionState)
 
-        if motionState == 'center':
-            roboter.arm.arm_pos_down()
-        else:
-            roboter.arm.arm_pos_up()
+    #     if motionState == 'center':
+    #         roboter.arm.arm_pos_down()
+    #         roboter.arm.gripper_open()
+    #         roboter.get_block()
+    #     else:
+    #         roboter.arm.arm_pos_up()
+    #         roboter.arm.gripper_close()
         
 
-        # motion_contorl(o,arm)  
+    #     # motion_contorl(o,arm)  
         
        
-        # For ending the Program press q 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+    #     # For ending the Program press q 
+    #     if cv2.waitKey(1) & 0xFF == ord('q'):
+    #         break
 
     # remove the objet roboter
     del roboter

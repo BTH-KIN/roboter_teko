@@ -13,7 +13,7 @@ except ImportError:
     print("Error importing ST_VL6180X.VL6180X!")
     exit()
 
-class TOF:
+class tof:
 
     __on_pins    = [17]
     __alert_pins    = [4]
@@ -53,6 +53,7 @@ class TOF:
         if sensor >= 0 and sensor < len(self.tof):
             distans = self.tof[sensor].get_distance()
             # print("Measured distance from Sensor 0x{:X} is : {:} mm".format(self.tof[sensor].address,distans))
+            print("[DEBUG] Sensor Disatans: ",distans)
             return distans 
         else:
             print("Sensor is not There")
@@ -99,7 +100,7 @@ class TOF:
                 # sleep(5)
                 #print("Measured distance is : ", self.tof[1].get_distance(), " mm" )
                 #print("Measured light level is : ", self.tof[1].get_ambient_light(20), " lux")
-                sleep(5)
+                # sleep(5)
         except KeyboardInterrupt:
             print("\nquit")
 
@@ -111,7 +112,7 @@ if __name__ == '__main__':
         if sys.argv[1] == "debug":  # sys.argv[0] is the filename
             debug = True
 
-    sensortest = TOF(debug)
+    sensortest = tof(debug)
     # print(sensortest.get_distance(0))
     sensortest.test()
 

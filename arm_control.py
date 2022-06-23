@@ -102,15 +102,22 @@ if __name__ == '__main__':
    
     # arm.arm_forward()
     # arm.arm_down()
-    arm.gripper_open()
+    # # arm.gripper_open()
     # arm.gripper_close()
-    # arm.gripper_open()
-    # arm.set_servo_angel(2,180)
-    # arm.set_servo_angel(1,0)
-    # arm.set_servo_angel(3,90)
+    # # arm.gripper_open()
+    # # arm.set_servo_angel(2,180)
+    # # arm.set_servo_angel(1,0)
+    # arm.set_servo_angel(3,180)
     # arm.arm_pos_up()
     # arm.arm_pos_down()
-    # arm.arm_backward()
+    # arm.gripper_open()
+    # # arm.arm_backward()
+
+    arm.gripper_close()
+    arm.set_servo_angel(3,180)
+    arm.arm_pos_up()
+    arm.arm_pos_down()
+    arm.gripper_open()
 
     
 
